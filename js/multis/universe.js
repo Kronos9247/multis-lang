@@ -1,7 +1,8 @@
 if (typeof multis === "undefined") multis = {};
 
 (function(obj) {
-    let defaults = "[{\"x\":1,\"y\":1,\"op\":\"x\"},{\"x\":2,\"y\":1,\"op\":\">\"}]";
+    // let defaults = "[{\"x\":1,\"y\":1,\"op\":\"x\"},{\"x\":2,\"y\":1,\"op\":\">\"}]";
+    let defaults = "[{\"x\":1,\"y\":1,\"op\":\"x\"},{\"x\":2,\"y\":1,\"op\":\">\"},{\"x\":6,\"y\":1,\"op\":\"v\"},{\"x\":5,\"y\":4,\"op\":\"~\"},{\"x\":2,\"y\":5,\"op\":\"^\"},{\"x\":5,\"y\":5,\"op\":\"v\"},{\"x\":6,\"y\":5,\"op\":\"<\"},{\"x\":5,\"y\":9,\"op\":\"x\"},{\"x\":5,\"y\":10,\"op\":\"!\"}]";
 
     class Universe {
         constructor(interpreter) {
@@ -75,6 +76,7 @@ if (typeof multis === "undefined") multis = {};
                 }
 
                 // TODO: throw error ... maleformed file format
+                editor.stdout.throw(new Error('position out of bounds'));
             }
         }
     }
