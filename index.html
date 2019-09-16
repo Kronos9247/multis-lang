@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Multis.JS</title>
+        <!-- P5.JS Dependencies -->
+        <script src="js/p5.js/p5.min.js" charset="utf-8"></script>
+        <!-- Custom JS -->
+        <script src="js/multis/interpreter.js" charset="utf-8"></script>
+        <script src="js/multis/universe.js" charset="utf-8"></script>
+        <script src="js/multis/functions.js" charset="utf-8"></script>
+        <script src="js/multis/functions.start.js" charset="utf-8"></script>
+        <script src="js/editor/canvas.js" charset="utf-8"></script>
+        <script src="js/editor/selector.js" charset="utf-8"></script>
+        <script src="js/editor/debugger.js" charset="utf-8"></script>
+        <script src="js/sketch.js" charset="utf-8"></script>
+
+        <!-- External-Font -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <link href="css/open-iconic/font/css/open-iconic.min.css" rel="stylesheet">
+        <!-- Custom Style -->
+        <link rel="stylesheet" href="css/p5.canvas.css">
+        <link rel="stylesheet" href="css/multis.editor.css">
+        <link rel="stylesheet" href="css/multis.style.css">
+    </head>
+
+    <body>
+        <div id="multis-head">
+            <h1>Multis</h1>
+        </div>
+        <div id="multis-editor">
+            <div class="multis-split left">
+                <div id="editor"></div>
+            </div>
+            
+            <div class="multis-split right">
+                <a id="btn-launch" class="multis-btn" href="#">
+                    <span class="oi" data-glyph="media-play"></span>
+                </a>
+                <a id="btn-pause" class="multis-btn" href="#">
+                    <span class="oi" data-glyph="media-pause"></span>
+                </a>
+                <a id="btn-step" class="multis-btn" href="#">
+                    <span class="oi" data-glyph="media-step-forward"></span>
+                </a>
+
+                <h3>Output</h3>
+                <textarea id="editor-output"></textarea>
+            </div> 
+        </div>
+
+        <script>
+            // disables the context menu. Why? because of the delete mode
+            document.addEventListener('contextmenu', event => event.preventDefault());
+        </script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+body {
+    font: 20px Montserrat, sans-serif;
+    margin: 0px;
+}
+
+#multis-head {
+    background-color: #29556C !important;
+    color: #FFFFFF;
+
+    padding: 15px;
+}
+#multis-head h1 {
+    margin: 0px;
+}
+
+
+.multis-split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    /* z-index: 1; */
+    top: 77px;
+    overflow-x: hidden;
+}
+
+.left {
+    background-color: #212529;
+    color: #FFFFFF;
+
+    left: 0;
+}
+.right {
+    background-color: #FFFFFF;
+    color: #212529;
+
+    right: 0;
+    padding: 20px;
+}
