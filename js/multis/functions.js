@@ -138,13 +138,13 @@ if (typeof multis === "undefined") multis = {};
     }
     obj.Event = Event;
 
-    (function(op) {
-        ops.op('>', (state) => state.vel(new p5.Vector(1, 0)));
-        ops.op('^', (state) => state.vel(new p5.Vector(0, -1)));
-        ops.op('v', (state) => state.vel(new p5.Vector(0, 1)));
-        ops.op('<', (state) => state.vel(new p5.Vector(-1, 0)));
+    // (function(op) {
+    //     ops.op('>', (state) => state.vel(new p5.Vector(1, 0)));
+    //     ops.op('^', (state) => state.vel(new p5.Vector(0, -1)));
+    //     ops.op('v', (state) => state.vel(new p5.Vector(0, 1)));
+    //     ops.op('<', (state) => state.vel(new p5.Vector(-1, 0)));
 
-        // ops.op('x', (state) => state.vel(new p5.Vector(1, 0)));
-    })(ops);
-    obj.ops = ops;
+    //     // ops.op('x', (state) => state.vel(new p5.Vector(1, 0)));
+    // })(ops);
+    obj.ops = ops; // DO NOT REMOVE THIS LINE !!!
 })(multis);
