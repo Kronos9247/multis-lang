@@ -37,6 +37,7 @@ if (typeof multis === "undefined") multis = {};
             }
 
             // TODO: call error dispatcher ... out of bounds
+            editor.stdout.throw(new Error("state out of bounds"));
         }
 
         update() {
