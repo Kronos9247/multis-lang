@@ -72,7 +72,6 @@ if (typeof multis === "undefined") multis = {};
             }
             
             // emit step
-            console.log("hi");
             if (this.events.emit('step', [ state ]))
                 if ("onStep" in this) this.onStep(state);
         }
