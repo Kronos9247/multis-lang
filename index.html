@@ -4,8 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Multis.JS</title>
-        <!-- P5.JS Dependencies -->
+        <!-- External Dependencies -->
         <script src="js/p5.js/p5.min.js" charset="utf-8"></script>
+        <script src="js/jquery/jquery-3.4.1.min.js" charset="utf-8"></script>
         <!-- Custom JS -->
         <script src="js/multis/interpreter.js" charset="utf-8"></script>
         <script src="js/multis/universe.js" charset="utf-8"></script>
@@ -56,6 +57,22 @@
         <script>
             // disables the context menu. Why? because of the delete mode
             document.addEventListener('contextmenu', event => event.preventDefault());
+            $("canvas").on("contextmenu")
+
+            let interv = null;
+            $('#btn-launch').click((e) => {
+                e.preventDefault();
+
+                if (interv === null) {
+                    interp.init();
+                    interv = setInterval(() => interp.step(), 500);
+                }
+                else {
+                    interp.reset();
+                    clearInterval(interv);
+                    interv = null;
+                }
+            })
         </script>
     </body>
 </html>

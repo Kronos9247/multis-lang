@@ -60,9 +60,9 @@ let init = false;
 function keyPressed() {
     selector.keyPressed(keyCode);
 
-    if (key == 'w') {        
-        interp.init();
-    }
+    // if (key == 'w') {        
+    //     interp.init();
+    // }
 }
 
 function mousePressed() {
