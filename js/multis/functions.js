@@ -132,6 +132,8 @@ if (typeof multis === "undefined") multis = {};
             }
             else
                 this.modifiers[opcode] = modifier;
+
+            return this;
         }
     }
     obj.Event = Event;
