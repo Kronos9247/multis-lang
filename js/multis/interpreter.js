@@ -2,7 +2,7 @@ if (typeof multis === "undefined") multis = {};
 
 (function(obj) {
     class State {
-        constructor(pos, vel, universe, value) {
+        constructor(pos, vel, interp, value) {
             this.value = value;
             if (value === undefined)
                 this.value = 255;
@@ -11,7 +11,8 @@ if (typeof multis === "undefined") multis = {};
             this.velocity = vel;
             this.preVel = vel;
 
-            this.universe = universe;
+            this.parent = interp;
+            this.universe = interp.parent;
         }
 
         vel(velocity) {
@@ -29,7 +30,21 @@ if (typeof multis === "undefined") multis = {};
                 if(this.position.y >= 0 && this.position.y < this.universe.height) {
                     const opcode = this.universe.cells[this.position.y][this.position.x];
                     if(opcode in multis.ops) {
-                        multis.ops[opcode].step(this);
+                        let ops = multis.ops[opcode];
+                        
+                        if (Object.keys(ops.modifiers).length > 0) {
+                            const key = this.position.x + this.position.y * this.universe.width;
+                            
+                            if (key in this.parent.events) {
+                                
+                                ops.wrap(this.parent.events[key], (ops) => ops.step(this));
+
+                                return;
+                            }
+                        }
+
+                        ops.step.call(ops, this);
+                        // multis.ops[opcode].step(this);
                     }
 
                     return;
@@ -50,9 +65,38 @@ if (typeof multis === "undefined") multis = {};
     class Interpreter {
         constructor() {
             this.states = null;
+            this.events = null;
             this.parent = null;
 
             this.reset();
+        }
+
+        initCell(pos, ops, store) {
+            const modifiers = ops.modifiers;
+
+            if (Object.keys(modifiers).length == 0) {
+                ops.start(this, pos);
+
+                return;
+            }
+            else {
+                let events = new obj.Events();
+
+                // wrap creates a new context with events set
+                ops.wrap(events, (ops) => ops.start(this, pos));
+
+                if (events.used()) {
+                    const key = pos.x + pos.y * this.parent.width;
+
+                    this.events[key] = events;
+                    // TODO:
+                    // events = new obj.Events();
+                }
+                else {
+                    // TODO: 
+                    // events.reset();
+                }
+            }
         }
 
         init() {
@@ -62,8 +106,9 @@ if (typeof multis === "undefined") multis = {};
                 for(let x = 0; x < store.height; x++) {
                     const cell = store.cells[y][x];
 
-                    if(cell in multis.ops) {
-                        multis.ops[cell].start(this, { 'x': x, 'y': y });
+                    if(cell in obj.ops) {
+                        this.initCell({ 'x': x, 'y': y }, obj.ops[cell], store);
+                        // multis.ops[cell].start(this, { 'x': x, 'y': y });
                     }
                 }
             }
@@ -72,6 +117,7 @@ if (typeof multis === "undefined") multis = {};
         reset() {
             this.initState = true;
             this.states = [];
+            this.events = {};
 
             // TEST:
             // TODO: add universe to state -> get op at position
@@ -85,7 +131,7 @@ if (typeof multis === "undefined") multis = {};
             if(velx === undefined) velx = 0;
             if(vely === undefined) vely = 0;
             
-            const state = new State(new p5.Vector(x, y), new p5.Vector(velx, vely), this.parent);
+            const state = new State(new p5.Vector(x, y), new p5.Vector(velx, vely), this);
             this.states.push(state);
             return state;
         }
