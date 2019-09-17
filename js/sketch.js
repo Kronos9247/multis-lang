@@ -79,3 +79,16 @@ function mousePressed() {
         canvas.repaint();
     }
 }
+
+function mouseDragged() {
+    if (mouseButton == LEFT && selector.deletemode) {
+        // get selector action
+        let x = floor(mouseX / width * store.width);
+        let y = floor(mouseY / height * store.height);
+        
+        store.set(x, y, selector.getAction());
+
+        // "fb" canvas needs to be repainted
+        canvas.repaint();
+    }
+}
