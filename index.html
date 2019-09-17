@@ -56,8 +56,8 @@
 
         <script>
             // disables the context menu. Why? because of the delete mode
-            document.addEventListener('contextmenu', event => event.preventDefault());
-            $("canvas").on("contextmenu")
+            // document.addEventListener('contextmenu', event => event.preventDefault());
+            $("body").on("contextmenu", 'canvas', (e) => e.preventDefault());
 
             let interv = null;
             $('#btn-launch').click((e) => {
