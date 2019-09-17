@@ -22,9 +22,9 @@ if (typeof editor === "undefined") editor = {};
                 fill(colour);
                 stroke(colour);
                 
-                // rotate(10);
-                // translate(pos.x * xs, pos.y * ys);
-                text(">", pos.x * xs + xs / 2, pos.y * ys + ys / 2);
+                translate(pos.x * xs + xs / 2, pos.y * ys + ys / 2);
+                rotate(atan2(state.velocity.y, state.velocity.x));
+                text(">", 0, 0);
                 pop();
             }
 
