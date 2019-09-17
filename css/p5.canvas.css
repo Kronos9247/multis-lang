@@ -3,6 +3,12 @@
     border: 1px solid #2e3338;
 }
 
+/* default viewport */
+/* #defaultCanvas0 {
+    width: 80% !important;
+    height: auto !important;
+} */
+
 /* background / fb canvas */
 #defaultCanvas1 {
     visibility: hidden;

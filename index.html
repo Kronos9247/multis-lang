@@ -26,6 +26,7 @@
         <link href="css/open-iconic/font/css/open-iconic.min.css" rel="stylesheet">
         <!-- Custom Style -->
         <link rel="stylesheet" href="css/p5.canvas.css">
+        <link rel="stylesheet" href="css/multis.theme.css">
         <link rel="stylesheet" href="css/multis.editor.css">
         <link rel="stylesheet" href="css/multis.style.css">
     </head>
@@ -52,8 +53,13 @@
                     </a>
                 </div>
 
-                <h3>Output</h3>
-                <textarea id="editor-output"></textarea>
+                <div class="multis-container">
+                    <h3>Output</h3>
+                    <div class="multis-console">
+                        <div id="std-out" class="multis-output"></div>
+                        <a id="btn-clear" class="multis-btn" href="#">Clear</a>
+                    </div>
+                </div>
             </div> 
         </div>
 

@@ -3,15 +3,34 @@
 }
 
 .multis-toolbar {
-    background-color: aliceblue;
+    background-color: var(--theme-color-3);
+
+    padding: 20px;
+}
+
+.multis-container {
+    padding: 20px;
 }
 
 .multis-btn {
     background-color: #000;
     color: #FFF;
+
+    text-decoration: none;
+    font-size: 30px;
+
     border: 1px solid #000;
     border-radius: 8px;
 
     margin: 8px;
     padding: 5px;
+}
+
+
+.multis-output {
+    height: 150px;
+
+    background-color: #000;
+
+    overflow: hidden;
 }

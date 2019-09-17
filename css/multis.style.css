@@ -4,7 +4,7 @@ body {
 }
 
 #multis-head {
-    background-color: #29556C !important;
+    background-color: var(--theme-color-1) !important;
     color: #FFFFFF;
 
     padding: 15px;
@@ -24,15 +24,15 @@ body {
 }
 
 .left {
-    background-color: #212529;
+    background-color:var(--theme-color-4);
     color: #FFFFFF;
 
     left: 0;
 }
 .right {
-    background-color: #FFFFFF;
+    background-color: var(--theme-color-2);
     color: #212529;
 
     right: 0;
-    padding: 20px;
+    /* padding: 20px; */
 }
