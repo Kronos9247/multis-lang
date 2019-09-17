@@ -21,7 +21,7 @@ multis.ops.op('x', new StartingPoint())
 
             let index = interp.states.indexOf(state);
             if (index >= 0)
-                interp.states = interp.states.splice(index, 1);
+                interp.states.splice(index, 1);
 
             return false;
         });
