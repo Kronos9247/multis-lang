@@ -1,0 +1,25 @@
+{
+  "name": "multis",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "minify-functions": "uglifyjs js/multis/functions.js js/multis/functions.modifiers.js js/multis/functions.layers.js js/multis/functions.layers.data.js js/multis/functions.stacking.js --compress -o build/multis.functions.min.js",
+    "minify-operators": "uglifyjs js/multis/ops/start.js js/multis/ops/redirect.js js/multis/ops/if.js --compress -o build/multis.ops.min.js",
+    "minify-core": "uglifyjs js/multis/interpreter.js js/multis/universe.js js/sketch.js --compress -o build/multis.min.js",
+    "minify-editor": "uglifyjs js/editor/canvas.js js/editor/debugger.js js/editor/logger.js js/editor/selector.js --compress -o build/multis.editor.min.js",
+    "minify": "npm run minify-functions && npm run minify-operators && npm run minify-editor && npm run minify-core"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kronos9247/multis-lang.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Kronos9247/multis-lang/issues"
+  },
+  "homepage": "https://github.com/Kronos9247/multis-lang#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "uglify-es": "github:mishoo/UglifyJS2#harmony"
+  }
+}

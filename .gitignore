@@ -1,2 +1,4 @@
 .vs
 *.code-workspace
+node_modules
+build
