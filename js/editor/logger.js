@@ -4,10 +4,21 @@ if (typeof editor === "undefined") editor = {};
     class Logger {
         constructor(query) {
             // TODO: use jQuery maby, to query the html element
+            this.element = $(query);
+            this.output = [];
         }
 
         clear() {
-            // TODO: implement clear
+            this.output = [];
+            this.element.html('');
+
+        }
+
+        data(msg, color, br) {
+            if (br === undefined)
+                br = false;
+
+            this.output.push({ "msg": msg, "color": color });
         }
 
         print() {
@@ -18,6 +29,8 @@ if (typeof editor === "undefined") editor = {};
                 const colour = args[i + 1];
 
                 // TODO: print
+                this.data(message, colour);
+                messages.push(message);
             }
         }
 

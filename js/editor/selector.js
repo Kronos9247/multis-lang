@@ -13,7 +13,7 @@ if (typeof editor === "undefined") editor = {};
         }
 
         setup() {
-            textSize(40); // default: 60
+            textSize(40 * (width / 800)); // default: 60
         }
 
         draw() {

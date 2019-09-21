@@ -6,13 +6,14 @@ var canvas = null;
 var selector = null;
 
 function setup() {
-    let cns = createCanvas(800, 800);
+    let cns = createCanvas(400, 400);
     cns.parent('editor');
     
     textAlign(CENTER, CENTER);
 
     /* Editor Stuff */
-    canvas = new editor.Canvas(paint, 800, 800, cns, icanvas);
+    // canvas = new editor.Canvas(paint, 400, 400, cns, icanvas);
+    canvas = new editor.Canvas(paint, cns, icanvas);
     selector = new editor.Selector();
     debuger = new editor.Debugger(interp); // I know that debugger is written with a double g 
 }
@@ -35,7 +36,7 @@ function draw() {
 function icanvas() {
     this.textAlign(CENTER, CENTER);
 
-    this.textSize(40);
+    this.textSize(40 * (this.width / 800)); // auto-compute the size of the glyphs
     this.stroke(255);
     this.fill(255);
 }
@@ -91,4 +92,11 @@ function mouseDragged() {
         // "fb" canvas needs to be repainted
         canvas.repaint();
     }
+}
+
+
+function windowResized() {
+    draw();
+    canvas.repaint();
+    // resizeCanvas(windowWidth, windowHeight);
 }
