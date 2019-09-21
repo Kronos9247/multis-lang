@@ -4,23 +4,37 @@ if (typeof multis === "undefined") multis = {};
     class Events {
         constructor() {
             this.mods = []; // applied modifiers
-
-            // TODO: add event dispatching for each indevidual cell
             this.events = {};
+            this.ops = {};
+
+            this.data = null; // Stored: container
         }
 
         reset() {
             this.mods = [];
             this.events = {};
+            this.ops = {};
+            
+            this.data = null;
+        }
 
+
+        use(data) {
+            if (data instanceof obj.Container) {
+                if (this.data === null) {
+                    this.data = data;
+                }
+            }
         }
 
         used() {
-            if (this.mods.length == 0) {
-                let keys = Object.keys(this.events);
+            if (this.data === null) {
+                if (this.mods.length == 0) {
+                    let keys = Object.keys(this.events);
 
-                if (keys.length == 0) {
-                    return false;
+                    if (keys.length == 0) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -66,6 +80,12 @@ if (typeof multis === "undefined") multis = {};
             }
             else 
                 this.events[name] = event;
+        }
+
+        opt(xy, operator) {
+            if (!(xy in this.ops)) {
+                this.ops[xy] = operator;
+            }
         }
     }
 

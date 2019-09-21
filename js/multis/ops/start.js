@@ -17,11 +17,12 @@ multis.ops.op('x', new StartingPoint())
         m.on('start', (args) => false);
         m.on('step', (args) => {
             let state = args[0];
-            let interp = state.parent;
+            state.destroy(); // destroys the state object
+            // let interp = state.parent;
 
-            let index = interp.states.indexOf(state);
-            if (index >= 0)
-                interp.states.splice(index, 1);
+            // let index = interp.states.indexOf(state);
+            // if (index >= 0)
+            //     interp.states.splice(index, 1);
 
             return false;
         });

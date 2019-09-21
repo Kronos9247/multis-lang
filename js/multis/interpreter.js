@@ -10,6 +10,8 @@ if (typeof multis === "undefined") multis = {};
             this.position = pos;
             this.velocity = vel;
             this.preVel = vel;
+            this.frozen = false;
+            
 
             this.parent = interp;
             this.universe = interp.parent;
@@ -22,43 +24,82 @@ if (typeof multis === "undefined") multis = {};
             }
         }
 
-        apply() {
+        freeze() {
+            this.frozen = true;
+        }
+
+        unfreeze() {
+            this.frozen = false;
+
+            this.update(false);
+        }
+
+        destroy() {
+            const states = this.parent.states;
+
+            let index = states.indexOf(this);
+            if (index >= 0)
+                states.splice(index, 1);
+        }
+
+
+        apply_unchecked() {
             // TODO: get operator at current position and apply action
             // to the current state
 
+            const opcode = this.universe.cells[this.position.y][this.position.x];
+            if(opcode in multis.ops) {
+                let ops = multis.ops[opcode];
+                
+                // if (Object.keys(modifiers).length > 0) {
+                if (ops.stores) {
+                    const key = this.position.x + this.position.y * this.universe.width;
+                    
+                    if (key in this.parent.events) {
+                        ops.wrap(this.parent.events[key], (ops) => ops.step(this));
+
+                        return;
+                    }
+                }
+
+                ops.step.call(ops, this);
+                // multis.ops[opcode].step(this);
+            }
+            else if (opcode !== null) {
+                let op = this.parent.specific(this.position);
+
+                if (op !== undefined) {
+                    op.step(this);
+                }
+            }
+
+            return;
+        }
+
+        apply() {
             if(this.position.x >= 0 && this.position.x < this.universe.width) {
                 if(this.position.y >= 0 && this.position.y < this.universe.height) {
-                    const opcode = this.universe.cells[this.position.y][this.position.x];
-                    if(opcode in multis.ops) {
-                        let ops = multis.ops[opcode];
-                        
-                        if (Object.keys(ops.modifiers).length > 0) {
-                            const key = this.position.x + this.position.y * this.universe.width;
-                            
-                            if (key in this.parent.events) {
-                                
-                                ops.wrap(this.parent.events[key], (ops) => ops.step(this));
-
-                                return;
-                            }
-                        }
-
-                        ops.step.call(ops, this);
-                        // multis.ops[opcode].step(this);
-                    }
+                    this.apply_unchecked();
 
                     return;
-                }    
+                }
             }
 
             // TODO: call error dispatcher ... out of bounds
             editor.stdout.throw(new Error("state out of bounds"));
         }
 
-        update() {
-            this.apply();
+        update(should_apply) {
+            if (!this.frozen) {
+                if (should_apply === undefined || should_apply === true)
+                    this.apply();
 
-            this.position.add(this.velocity);
+                // stop position update
+                if (this.frozen)
+                    return;
+
+                this.position.add(this.velocity);
+            }
         }
     }
 
@@ -66,15 +107,31 @@ if (typeof multis === "undefined") multis = {};
         constructor() {
             this.states = null;
             this.events = null;
+            this.ops = null;
             this.parent = null;
-
+            
             this.reset();
+        }
+
+        reset() {
+            this.initState = true;
+            this.states = [];
+            this.events = {};
+            this.ops = {};
+
+            // TEST:
+            // TODO: add universe to state -> get op at position
+            // this.states.push(new State(new p5.Vector(1, 1), new p5.Vector(1, 0), 10));
+
+            // TODO: find spawn locations and spawn states
+            // apply <function> to state at the positon
         }
 
         initCell(pos, ops, store) {
             const modifiers = ops.modifiers;
 
-            if (Object.keys(modifiers).length == 0) {
+            // if (Object.keys(modifiers).length == 0) {
+            if (!ops.stores) {
                 ops.start(this, pos);
 
                 return;
@@ -114,17 +171,20 @@ if (typeof multis === "undefined") multis = {};
             }
         }
 
-        reset() {
-            this.initState = true;
-            this.states = [];
-            this.events = {};
+        specific(position) {
+            const key = position.x + position.y * this.parent.width;
 
-            // TEST:
-            // TODO: add universe to state -> get op at position
-            // this.states.push(new State(new p5.Vector(1, 1), new p5.Vector(1, 0), 10));
+            if (key in this.ops) {
+                return this.ops[key];
+            }
+        }
 
-            // TODO: find spawn locations and spawn states
-            // apply <function> to state at the positon
+        regs(pos, op) {
+            const key = pos.x + pos.y * this.parent.width;
+
+            if (typeof this.ops[key] === "undefined") {
+                this.ops[key] = op;
+            }
         }
 
         value(x, y, velx, vely) {

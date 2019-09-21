@@ -13,14 +13,23 @@ if (typeof multis === "undefined") multis = {};
     }
     ops.op = op.bind(ops);
 
-    class Event {
-        // abstract Event interface definition
+    class BaseEvent {
+        // Event interface definition
 
+        start(interp, pos) {}
+        step(state) {}
+        end() {}
+    }
+
+    class Event extends BaseEvent {
         constructor(cb) {
+            super();
             if (cb !== undefined)
                 this.onStep = cb.bind(this);
 
             this.modifiers = {};
+            this.requirements = [];
+            this.storage = null;
             this.events = null;
         }
 
@@ -48,12 +57,29 @@ if (typeof multis === "undefined") multis = {};
             // let mods = [];
             // if (key in this.mods)
             //     mods = this.mods[key];
+            if (typeof this.storage === "function")
+                this.events.data = this.storage(this, this.events);
 
             this.useModifiers(pos, interp, this.events.mods);
             for (let i = 0; i < this.events.mods.length; i++) {
                 const modifier = this.events.mods[i];
 
                 modifier.wrap(this.events, (mod) => mod.call());
+
+                // this.events.wrap(modifier, (events) => {
+                //     modifier.wrap(events, (mod) => mod.call());
+                // });
+            }
+
+            let ops = Object.keys(this.events.ops);
+            for (let i = 0; i < ops.length; i++) {
+                const xy = ops[i];
+                const fop = this.events.ops[xy];
+
+                let y = floor(xy / interp.parent.width);
+                let x = xy - y * interp.parent.width;
+
+                fop.use(interp, {'x':x, 'y':y}, this.events);
             }
 
             // if (mods.length > 0)
@@ -112,14 +138,19 @@ if (typeof multis === "undefined") multis = {};
 
                         // this should only be called once and not multiple times!!!
                         let mod = mods.find((mod) => mod == store);
-                        if (mod === undefined)
+                        if (mod === undefined) {
+                            if (store.operator !== null) {
+                                this.events.opt(x + y * universe.width, store.operator);
+                            }
+
                             mods.push(store);
+                        }
                     }
                 }
             }
         }
 
-        mod(opcode, modifier) {
+        mod(opcode, modifier, fakeop) {
             if (typeof modifier !== "object")
                 modifier = new obj.Modifier(modifier);
 
@@ -132,10 +163,44 @@ if (typeof multis === "undefined") multis = {};
             else
                 this.modifiers[opcode] = modifier;
 
+            
+            // if this is a fake op
+            if (fakeop) 
+                this.modifiers[opcode].fakes();
+
             return this;
+        }
+
+        req(requires) {
+            this.requirements.push(requires);
+        }
+
+        use(cb) {
+            // generator callback cb(Event, Events);
+            if (typeof cb === "function") {
+                if (this.storage === null) {
+                    this.storage = cb;
+                }
+            }
+        }
+
+
+        get stores() {
+            // if function has requirements it always needs to have a Events object bound to it
+            if (this.requirements.length > 0) return true;
+            // this method returns true if this operator requires a event class or not
+            return Object.keys(this.modifiers).length > 0 || typeof this.storage === "function";
+        }
+
+        get store() {
+            if (this.events === null) 
+                return null;
+
+            return this.events.data;
         }
     }
     obj.Event = Event;
+    obj.Event.Base = BaseEvent;
 
     // (function(op) {
     //     ops.op('>', (state) => state.vel(new p5.Vector(1, 0)));

@@ -7,6 +7,7 @@ if (typeof multis === "undefined") multis = {};
         constructor(cb) {
             this.callback = cb.bind(this);
             this.events = null;
+            this.operator = null;
         }
 
         wrap(events, context) {
@@ -20,8 +21,25 @@ if (typeof multis === "undefined") multis = {};
         }
 
         call() {
+            if (this.operator !== null) {
+                this.calls();
+
+                return ;
+            }
+
             if (this.events !== null)
                 this.callback(this.events);
+        }
+
+        calls() {
+            if (this.events !== null)
+                this.callback(this.events, this.operator);
+        }
+
+        fakes() {
+            // if (this.operator !== null) {
+            this.operator = new obj.Modifier.Operator(this);
+            // }
         }
 
         step(state) {};
