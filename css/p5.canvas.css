@@ -12,4 +12,5 @@
 /* background / fb canvas */
 #defaultCanvas1 {
     visibility: hidden;
+    position: absolute;
 }

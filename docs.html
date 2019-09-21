@@ -22,7 +22,7 @@
         <script src="js/editor/selector.js" charset="utf-8"></script>
         <script src="js/editor/debugger.js" charset="utf-8"></script>
         <script src="js/editor/logger.js" charset="utf-8"></script>
-        <script src="js/sketch.js" charset="utf-8"></script>
+        <script src="js/docs.js" charset="utf-8"></script>
         <!-- <script src="build/multis.functions.min.js" charset="utf-8"></script>
         <script src="build/multis.ops.min.js" charset="utf-8"></script>
         <script src="build/multis.editor.min.js" charset="utf-8"></script>
@@ -34,7 +34,7 @@
         <!-- Custom Style -->
         <link rel="stylesheet" href="css/p5.canvas.css">
         <link rel="stylesheet" href="css/multis.theme.css">
-        <link rel="stylesheet" href="css/multis.editor.css">
+        <link rel="stylesheet" href="css/multis.doc.css">
         <link rel="stylesheet" href="css/multis.style.css">
     </head>
 
@@ -45,47 +45,56 @@
                     <ul>
                         <li><a href="index.html">Multis</a></li>
                         <li><a href="docs.html">Docs</a></li>
-
-                        <li>
-                            <a id="btn-launch" class="multis-btn" href="#">
-                                <span class="oi" data-glyph="media-play"></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
-    
+                
                 <hr>
             </div>
 
-            <div id="multis-editor">
-                <div id="editor"></div>
-            </div>
-            
-            <!-- <div>
-                <a id="btn-launch" class="multis-btn" href="#">
-                    <span class="oi" data-glyph="media-play"></span>
-                </a>
-            </div> -->
+            <div id="multis-docs" class="docs"></div>
         </div>
 
         <script>
-            // disables the context menu. Why? because of the delete mode
-            // document.addEventListener('contextmenu', event => event.preventDefault());
-            $("body").on("contextmenu", 'canvas', (e) => e.preventDefault());
+            $(document).ready(() => {
+                doc(
+                    "Introduction", 
+                    `Multis ist eine einfach zu erlernende esoterische Programmiersprache!`, 
+                    [{"x":10,"y":1,"op":"~"},{"x":8,"y":2,"op":">"},{"x":9,"y":2,"op":"x"},{"x":10,"y":2,"op":"v"},{"x":12,"y":2,"op":"<"},{"x":8,"y":4,"op":"x"},{"x":9,"y":4,"op":"v"},{"x":9,"y":6,"op":"v"},{"x":9,"y":7,"op":"%"},{"x":10,"y":7,"op":"o"},{"x":9,"y":8,"op":"^"},{"x":10,"y":8,"op":"v"},{"x":10,"y":10,"op":"x"},{"x":11,"y":10,"op":"!"}], 
+                    "1.0"
+                );
+                
+                doc("Basics 101", "", {}, "2.0");
+            });
+        </script>
 
-            let interv = null;
-            $('#btn-launch').click((e) => {
-                e.preventDefault();
+        <script>
+            function doc(title, text, json, link) {
+                var docs = $(`
+                    <div class="doc-card">
+                        <a id="${link}" href="#${link}"><span>#</span>${title}</a>
+                        
+                        <div class="doc-container">
+                            <!--<div class="doc-canvas doc-left"></div>-->
+                            <div class="doc-canvas doc-left">${JSON.stringify(json)}</div>
+                            <div class="doc-content doc-right">
+                                <p>${text}</p>
+                            </div>
+                        </div>
+                    </div> 
+                `);
 
-                if (interv === null) {
-                    interp.init();
-                    interv = setInterval(() => interp.step(), 500);
-                }
-                else {
-                    interp.reset();
-                    clearInterval(interv);
-                    interv = null;
-                }
+                $('#multis-docs').append(docs);
+            }
+
+            $(document).ready(() => {
+                $('.doc-canvas').each((i, e) => {
+                    const element = $(e);
+
+                    const program = element.html();
+                    element.html('');
+
+                    new MultisCanvas(program, element);
+                });
             });
         </script>
     </body>

@@ -4,13 +4,33 @@ body {
 }
 
 #multis-head {
-    background-color: var(--theme-color-1) !important;
-    color: #FFFFFF;
+    color: var(--theme-color-1);
+    text-align: left;
 
     padding: 15px;
 }
-#multis-head h1 {
-    margin: 0px;
+#multis-head a {
+    font-size: 25px;
+    text-decoration: none;
+
+    color: var(--theme-color-1);
+}
+#multis-head a:hover {
+    color: var(--theme-color-hover);
+}
+#multis-head hr {
+    color: var(--theme-color-2);
+}
+
+#multis-head ul {
+    display: block;
+    direction: ltr;
+    
+    list-style: none;
+}
+#multis-head li {
+    display: inline;
+    padding-right: 9px;
 }
 
 
@@ -36,3 +56,4 @@ body {
     right: 0;
     /* padding: 20px; */
 }
+

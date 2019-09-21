@@ -1,0 +1,60 @@
+.docs {
+    padding: 15px 35px;
+}
+
+.doc-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.027);
+    border-radius: 5px !important;
+
+    margin-bottom: 19px;
+}
+.doc-container {
+    display: table;
+    width: 100%;
+    overflow-x: hidden;
+
+    margin-top: 5px;
+}
+
+.doc-card .doc-left {
+    display: table-cell;
+    background-color: var(--theme-color-3);
+    color: #FFF;
+    
+    left: 0;
+    height: 100%;
+    width: 40%;
+}
+.doc-card .doc-right {
+    background-color: #FFF;
+    display: table-cell;
+    right: 0;
+}
+
+.doc-card a {
+    display: block;
+    text-align: right;
+
+    color: #000;
+    text-decoration: none;
+}
+
+.doc-card span {
+    color: #555;
+    padding-right: 9px;
+
+    visibility: hidden;
+}
+.doc-card:hover span {
+    visibility: visible;
+}
+
+
+.doc-content {
+    font-size: 15px;
+}
+
+.doc-canvas canvas {
+    width: 90% !important;
+    height: 90% !important;
+}

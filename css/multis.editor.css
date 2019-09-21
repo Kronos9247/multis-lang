@@ -13,24 +13,35 @@
 }
 
 .multis-btn {
-    background-color: #000;
-    color: #FFF;
-
     text-decoration: none;
     font-size: 30px;
-
-    border: 1px solid #000;
-    border-radius: 8px;
-
-    margin: 8px;
-    padding: 5px;
+    
+    color: #000;
+}
+.multis-btn:hover {
+    color: #222;
 }
 
 
 .multis-output {
     height: 150px;
-
     background-color: #000;
 
     overflow: hidden;
+}
+
+#btn-launch {
+    /* display: inline; */
+    /* padding-left: 100%; */
+
+    /* text-align: right; */
+    float: right;
+    padding-right: 25px;
+}
+
+#editor canvas {
+    margin-right: auto;
+    margin-left: auto;
+
+    display: block;
 }
