@@ -42,10 +42,26 @@ if (typeof multis === "undefined") multis = {};
                 states.splice(index, 1);
         }
 
+        unchecked_specific() {
+                let op = this.parent.specific(this.position);
+
+                if (op !== undefined) {
+                    op.step(this);
+
+                    return true;
+                }
+
+                return false;
+        }
 
         apply_unchecked() {
             // TODO: get operator at current position and apply action
             // to the current state
+
+            // specific first
+            if (this.unchecked_specific()) {
+                return ;
+            }
 
             const opcode = this.universe.cells[this.position.y][this.position.x];
             if(opcode in multis.ops) {
@@ -65,13 +81,13 @@ if (typeof multis === "undefined") multis = {};
                 ops.step.call(ops, this);
                 // multis.ops[opcode].step(this);
             }
-            else if (opcode !== null) {
-                let op = this.parent.specific(this.position);
+            // else if (opcode !== null) {
+            //     let op = this.parent.specific(this.position);
 
-                if (op !== undefined) {
-                    op.step(this);
-                }
-            }
+            //     if (op !== undefined) {
+            //         op.step(this);
+            //     }
+            // }
 
             return;
         }
