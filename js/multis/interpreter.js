@@ -46,7 +46,12 @@ if (typeof multis === "undefined") multis = {};
                 let op = this.parent.specific(this.position);
 
                 if (op !== undefined) {
-                    op.step(this);
+                    const key = this.position.x + this.position.y * this.universe.width;
+                    
+                    if (key in this.parent.events)
+                        op.wrap(this.parent.events[key], (op) => op.step(this));
+                    else
+                        op.step(this);
 
                     return true;
                 }
