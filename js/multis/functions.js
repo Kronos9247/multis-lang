@@ -129,8 +129,8 @@ if (typeof multis === "undefined") multis = {};
             const universe = interp.parent;
             const cells = universe.cells;
 
-            if (x >= 0 || x < universe.width) {
-                if (y >= 0 || y < universe.height) {
+            if (x >= 0 && x < universe.width) {
+                if (y >= 0 && y < universe.height) {
                     let opcode = cells[y][x];
 
                     if (opcode in this.modifiers) {
