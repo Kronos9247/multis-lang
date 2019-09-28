@@ -18,6 +18,7 @@
         <script src="js/multis/ops/start.js" charset="utf-8"></script>
         <script src="js/multis/ops/redirect.js" charset="utf-8"></script>
         <script src="js/multis/ops/if.js" charset="utf-8"></script>
+        <script src="js/multis/ops/multiplexer.js" charset="utf-8"></script>
         <script src="js/editor/canvas.js" charset="utf-8"></script>
         <script src="js/editor/selector.js" charset="utf-8"></script>
         <script src="js/editor/debugger.js" charset="utf-8"></script>
@@ -48,7 +49,8 @@
 
                         <li>
                             <a id="btn-launch" class="multis-btn" href="#">
-                                <span class="oi" data-glyph="media-play"></span>
+                                <span id="play-btn" class="oi" data-glyph="media-play"></span>
+                                <span id="pause-btn" class="oi hidden" data-glyph="media-pause"></span>
                             </a>
                         </li>
                     </ul>
@@ -80,12 +82,28 @@
                 if (interv === null) {
                     interp.init();
                     interv = setInterval(() => interp.step(), 500);
+
+                    $("#pause-btn").removeClass("hidden");
+                    $("#play-btn").addClass("hidden");
                 }
                 else {
                     interp.reset();
                     clearInterval(interv);
                     interv = null;
+
+                    $("#play-btn").removeClass("hidden");
+                    $("#pause-btn").addClass("hidden");
                 }
+            });
+
+            $("canvas").each((i, ele) => {
+                const element = $(ele);
+
+                element.click((e) => {
+                    if (interv !== null) 
+                        e.preventDefault();
+                    
+                });
             });
         </script>
     </body>
