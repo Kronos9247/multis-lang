@@ -45,3 +45,8 @@
 
     display: block;
 }
+
+.hidden {
+    visibility: hidden;
+    position: absolute;
+}
