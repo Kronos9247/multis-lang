@@ -53,6 +53,12 @@
                                 <span id="pause-btn" class="oi hidden" data-glyph="media-pause"></span>
                             </a>
                         </li>
+
+                        <li>
+                            <a id="btn-download" class="multis-btn" href="#">
+                                <span class="oi" data-glyph="share"></span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
     
@@ -74,6 +80,7 @@
             // disables the context menu. Why? because of the delete mode
             // document.addEventListener('contextmenu', event => event.preventDefault());
             $("body").on("contextmenu", 'canvas', (e) => e.preventDefault());
+            $("body").keypress((e) => e.preventDefault());
 
             let interv = null;
             $('#btn-launch').click((e) => {
@@ -103,6 +110,20 @@
                     if (interv !== null) 
                         e.preventDefault();
                     
+                });
+            });
+
+            $(document.body).ready(() => {
+                function _json(json){
+                    json = JSON.stringify(json);
+                    var blob = new Blob([json], {type: "application/json"});
+                    window.location.href = window.URL.createObjectURL(blob);
+                }
+    
+                $("#btn-download").click((e) => {
+                    e.preventDefault();
+    
+                    _json(store.json());
                 });
             });
         </script>
