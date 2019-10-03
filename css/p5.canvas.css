@@ -11,6 +11,10 @@
 
 /* background / fb canvas */
 #defaultCanvas1 {
+    position: absolute !important;
+    /* solution to the overflowing browser page */
+    top: 0%;
+    left: 0%;
+
     visibility: hidden;
-    position: absolute;
 }
