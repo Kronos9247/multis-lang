@@ -173,6 +173,8 @@ if (typeof multis === "undefined") multis = {};
 
         req(requires) {
             this.requirements.push(requires);
+
+            return this;
         }
 
         use(cb) {
