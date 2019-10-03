@@ -20,47 +20,11 @@ if (typeof multis === "undefined") multis = {};
 
             this.sroot = sroot; // stack root element
             this.stack = stack; // parent stack element
+            this.events = new obj.Events();
         }
 
-        start(interp, pos) {
-            this.emit('start', [ interp, pos ]);
-        }
-        step(state) {
-            this.emit('step', [ state ]);
-        }
-        end() {
-            this.emit('end', []);
-        }
-
-        on(name, event) {}
-        emit(name, args) {
-            if (this.modifier === null) {
-                return true;
-            }
-
-            if (name in this.modifier.event) {
-                let events = this.modifier.event[name];
-
-                if (typeof events === "function") {
-                    let value = events(args, this.sroot);
-
-                    if (value !== undefined)
-                        return value;
-                    else 
-                        return true;
-                }
-                else {
-                    for (let i = 0; i < events.length; i++) {
-                        const event = events[i](args, this.sroot);
-
-                        if (event === false)
-                            return false;
-                    }
-
-                }
-            }
-
-            return true;
+        on(name, event) {
+            this.modifier.on(name, event);
         }
     }
     
@@ -78,6 +42,73 @@ if (typeof multis === "undefined") multis = {};
 
         use(interp, pos, events) {
             interp.regs(pos, obj.stack(this, events));
+            
+            this.wrap(events, (op) => op.start(interp, pos));
+        }
+
+
+        start(interp, pos) {
+            this.emit('start', [ interp, pos ]);
+        }
+        step(state) {
+            this.emit('step', [ state ]);
+        }
+        end() {
+            this.emit('end', []);
+        }
+
+        emit(name, args) {
+            if (name in this.event) {
+                let events = this.event[name];
+
+                if (typeof events === "function") {
+                    let value = events(args, this.events);
+                    
+                    if (value !== undefined)
+                        return value;
+                    else 
+                        return true;
+                }
+                else {
+                    for (let i = 0; i < events.length; i++) {
+                        const event = events[i](args, this.events);
+
+                        if (event === false)
+                            return false;
+                    }
+
+                }
+            }
+
+            return true;
+
+            // if (this.modifier === null) {
+            //     return true;
+            // }
+
+            // if (name in this.modifier.event) {
+            //     let events = this.modifier.event[name];
+
+            //     if (typeof events === "function") {
+            //         let value = events(args, this.sroot);
+                    
+            //         if (value !== undefined)
+            //             return value;
+            //         else 
+            //             return true;
+            //     }
+            //     else {
+            //         for (let i = 0; i < events.length; i++) {
+            //             const event = events[i](args, this.sroot);
+
+            //             if (event === false)
+            //                 return false;
+            //         }
+
+            //     }
+            // }
+
+            // return true;
         }
 
         // emit(name, args) {

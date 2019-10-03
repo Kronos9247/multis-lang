@@ -24,6 +24,10 @@ if (typeof multis === "undefined") multis = {};
             }
         }
 
+        teleport(position) {
+            this.position.set(position.x, position.y);
+        }
+
         freeze() {
             this.frozen = true;
         }
@@ -43,13 +47,16 @@ if (typeof multis === "undefined") multis = {};
         }
 
         unchecked_specific() {
-                let op = this.parent.specific(this.position);
-
-                if (op !== undefined) {
+                let fop = this.parent.specific(this.position);
+                
+                if (fop !== undefined) {
                     const key = this.position.x + this.position.y * this.universe.width;
-                    
-                    if (key in this.parent.events)
-                        op.wrap(this.parent.events[key], (op) => op.step(this));
+
+                    let op = fop.modifier;
+                    // if (key in this.parent.events)
+                    if ("events" in fop)
+                        // op.wrap(fop.events, (op) => op.step(this));
+                        op.wrap(fop.sroot, (op) => op.step(this));
                     else
                         op.step(this);
 
@@ -148,6 +155,30 @@ if (typeof multis === "undefined") multis = {};
             // apply <function> to state at the positon
         }
 
+        // initSpecifics() {
+        //     let positions = Object.keys(this.ops);
+        //     for (let i = 0; i < positions.length; i++) {
+        //         const pos = positions[i];
+        //         const fop = this.ops[pos];
+
+        //         // x + y * width
+        //         let y = floor(pos / this.parent.width);
+        //         let x = pos - y * this.parent.width;
+        //         let posn = { 'x': x, 'y': y };
+
+        //         // let events = new obj.Events();
+        //         fop.modifier.wrap(fop.events, (op) => op.start(this, posn));
+
+        //         if (fop.events.used()) {
+        //             // events = undefined;
+        //             this.events[pos] = fop.events;
+        //         }
+        //         else {
+        //             this.events[pos] = undefined;
+        //         }
+        //     }
+        // }
+
         initCell(pos, ops, store) {
             const modifiers = ops.modifiers;
 
@@ -190,6 +221,8 @@ if (typeof multis === "undefined") multis = {};
                     }
                 }
             }
+
+            // this.initSpecifics();
         }
 
         specific(position) {
