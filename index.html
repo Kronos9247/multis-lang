@@ -48,14 +48,14 @@
                         <li><a href="docs.html">Docs</a></li>
 
                         <li>
-                            <a id="btn-launch" class="multis-btn" href="#">
+                            <a id="btn-launch" class="multis-btn btn-right" href="#">
                                 <span id="play-btn" class="oi" data-glyph="media-play"></span>
                                 <span id="pause-btn" class="oi hidden" data-glyph="media-pause"></span>
                             </a>
                         </li>
 
                         <li>
-                            <a id="btn-download" class="multis-btn" href="#">
+                            <a id="btn-download" class="multis-btn btn-right" href="#">
                                 <span class="oi" data-glyph="share"></span>
                             </a>
                         </li>
@@ -114,16 +114,30 @@
             });
 
             $(document.body).ready(() => {
-                function _json(json){
+                function download_json(json){
                     json = JSON.stringify(json);
-                    var blob = new Blob([json], {type: "application/json"});
-                    window.location.href = window.URL.createObjectURL(blob);
+                    let blob = new Blob([json], {type: "application/json"});
+                    const url = window.URL.createObjectURL(blob);
+
+                    // create html element
+                    const a = document.createElement("a");
+                    document.body.appendChild(a);
+
+                    // style html element
+                    a.style = "display: none";
+                    a.download = "multis.json";
+                    a.href = url;
+                    a.click(); // press download
+
+                    // cleanup
+                    window.URL.revokeObjectURL(url); 
+                    document.body.removeChild(a);
                 }
     
                 $("#btn-download").click((e) => {
                     e.preventDefault();
     
-                    _json(store.json());
+                    download_json(store.json());
                 });
             });
         </script>
