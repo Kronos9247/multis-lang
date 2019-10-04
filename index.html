@@ -89,6 +89,7 @@
                 if (interv === null) {
                     interp.init();
                     interv = setInterval(() => interp.step(), 500);
+                    execmode = true;
 
                     $("#pause-btn").removeClass("hidden");
                     $("#play-btn").addClass("hidden");
@@ -97,6 +98,7 @@
                     interp.reset();
                     clearInterval(interv);
                     interv = null;
+                    execmode = false;
 
                     $("#play-btn").removeClass("hidden");
                     $("#pause-btn").addClass("hidden");

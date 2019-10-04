@@ -4,6 +4,7 @@ var store = new multis.Universe(interp);
 /* Editor Stuff */
 var canvas = null;
 var selector = null;
+let execmode = false;
 
 function setup() {
     let cns = createCanvas(400, 400);
@@ -24,12 +25,17 @@ function setup() {
 function draw() {
     background(43, 47, 51);
     canvas.draw();
-    
-    // TEST:
-    debuger.draw();
 
+    if (execmode)
+        debuger.draw();
+    else
+        selector.draw();
+    
+    // // TEST:
     // debuger.draw();
-    selector.draw();
+
+    // // debuger.draw();
+    // selector.draw();
 }
 
 /* editor canvas */
@@ -59,7 +65,8 @@ function paint() {
 
 let init = false;
 function keyPressed() {
-    selector.keyPressed(keyCode);
+    if (!execmode)
+        selector.keyPressed(keyCode);
 
     // if (key == 'w') {        
     //     interp.init();
@@ -67,6 +74,10 @@ function keyPressed() {
 }
 
 function mousePressed() {
+    if (execmode)
+        return ;
+
+
     selector.mousePressed(mouseButton);
 
     if (mouseButton == LEFT) {
@@ -82,6 +93,10 @@ function mousePressed() {
 }
 
 function mouseDragged() {
+    if (execmode)
+        return ;
+
+
     if (mouseButton == LEFT && selector.deletemode) {
         // get selector action
         let x = floor(mouseX / width * store.width);
