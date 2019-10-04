@@ -5,7 +5,7 @@ if (typeof multis === "undefined") multis = {};
         constructor(pos, vel, interp, value) {
             this.value = value;
             if (value === undefined)
-                this.value = 255;
+                this.value = 1;
 
             this.position = pos;
             this.velocity = vel;
