@@ -23,13 +23,7 @@ if (typeof multis === "undefined") multis = {};
             this.width = width;
             this.height = height;
 
-            this.cells = new Array();
-            for(let y = 0; y < this.height; y++) {
-                this.cells[y] = [];
-                for(let x = 0; x < this.width; x++) {
-                    this.cells[y][x] = null;
-                }
-            }
+            this.empty();
 
             this.interpreter.reset();
             // add defaults
@@ -45,7 +39,18 @@ if (typeof multis === "undefined") multis = {};
                 this.cells[y][x] = op;
         }
 
-        json(input) {
+        empty() {
+            this.cells = new Array();
+            for(let y = 0; y < this.height; y++) {
+                this.cells[y] = [];
+                for(let x = 0; x < this.width; x++) {
+                    this.cells[y][x] = null;
+                }
+            }
+
+        }
+
+        json(input, clear) {
             if (input === undefined) {
                 // save
                 let arr = [];
@@ -65,6 +70,9 @@ if (typeof multis === "undefined") multis = {};
                 
                 return arr;
             }
+
+            if (clear === true)
+                this.empty();
 
             // parse string to json object
             if (typeof input === "string") input = JSON.parse(input);

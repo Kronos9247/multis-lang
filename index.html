@@ -55,6 +55,12 @@
                         </li>
 
                         <li>
+                            <a id="btn-upload" class="multis-btn btn-right" href="#">
+                                <span class="oi" data-glyph="folder"></span>
+                            </a>
+                        </li>
+
+                        <li>
                             <a id="btn-download" class="multis-btn btn-right" href="#">
                                 <span class="oi" data-glyph="share"></span>
                             </a>
@@ -135,11 +141,58 @@
                     window.URL.revokeObjectURL(url); 
                     document.body.removeChild(a);
                 }
+
+                function upload_json(cb) {
+                    // create html element
+                    const input = document.createElement("input");
+                    document.body.appendChild(input);
+
+                    // style html element
+                    input.id = "multis.json";
+                    input.type = "file";
+                    input.hidden = true;
+
+                    $(input).change((e) => {
+                        let files = e.target.files;
+                        
+                        for (let i = 0; i < files.length; i++) {
+                            const file = files[i];
+                            if (!file.type.match('json.*'))
+                                continue;
+
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                if (cb !== undefined)
+                                    cb(e.target.result);
+                            };
+
+                            reader.readAsText(file, "utf8");
+                        }
+                    });
+                    input.click();
+                    
+                    document.body.removeChild(input);
+                }
+
     
                 $("#btn-download").click((e) => {
                     e.preventDefault();
     
                     download_json(store.json());
+                });
+                $("#btn-upload").click((e) => {
+                    e.preventDefault();
+    
+                    let json = upload_json((json) => {
+                        json = JSON.parse(json);
+                        
+                        if (json !== undefined) {
+                            store.json(json, true);
+
+                            canvas.repaint();
+                            draw();
+                        }
+                    });
                 });
             });
         </script>
