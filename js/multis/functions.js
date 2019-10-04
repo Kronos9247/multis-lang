@@ -118,36 +118,57 @@ if (typeof multis === "undefined") multis = {};
         
 
         useModifiers(pos, interp, mods) {
-            this.modifier(pos.x + 1, pos.y, interp, mods);
-            this.modifier(pos.x - 1, pos.y, interp, mods);
-            this.modifier(pos.x, pos.y + 1, interp, mods);
-            this.modifier(pos.x, pos.y - 1, interp, mods);
+            this.modifier(pos.x + 1, pos.y, interp, mods, pos);
+            this.modifier(pos.x - 1, pos.y, interp, mods, pos);
+            this.modifier(pos.x, pos.y + 1, interp, mods, pos);
+            this.modifier(pos.x, pos.y - 1, interp, mods, pos);
 
         }
 
-        modifier(x, y, interp, mods) {
+        modifier(x, y, interp, mods, parent) {
             const universe = interp.parent;
             const cells = universe.cells;
 
-            if (x >= 0 && x < universe.width) {
-                if (y >= 0 && y < universe.height) {
-                    let opcode = cells[y][x];
+            if (!(x >= 0 && x < universe.width)) return ;
+            if (!(y >= 0 && y < universe.height)) return ;
 
-                    if (opcode in this.modifiers) {
-                        const store = this.modifiers[opcode];
+            let opcode = cells[y][x];
+            if (opcode in this.modifiers) {
+                const store = this.modifiers[opcode];
 
-                        // this should only be called once and not multiple times!!!
-                        let mod = mods.find((mod) => mod == store);
-                        if (mod === undefined) {
-                            if (store.operator !== null) {
-                                this.events.opt(x + y * universe.width, store.operator);
-                            }
-
-                            mods.push(store);
-                        }
+                // this should only be called once and not multiple times!!!
+                let mod = mods.find((mod) => mod == store);
+                if (mod === undefined) {
+                    if (store.operator !== null) {
+                        this.events.opt(x + y * universe.width, store.operator);
                     }
+
+                    mods.push(store);
+
+                    // added for the newly created inspection mode
+                    interp.inspect(x, y, parent.x, parent.y);
                 }
             }
+
+            // if (x >= 0 && x < universe.width) {
+            //     if (y >= 0 && y < universe.height) {
+            //         let opcode = cells[y][x];
+
+            //         if (opcode in this.modifiers) {
+            //             const store = this.modifiers[opcode];
+
+            //             // this should only be called once and not multiple times!!!
+            //             let mod = mods.find((mod) => mod == store);
+            //             if (mod === undefined) {
+            //                 if (store.operator !== null) {
+            //                     this.events.opt(x + y * universe.width, store.operator);
+            //                 }
+
+            //                 mods.push(store);
+            //             }
+            //         }
+            //     }
+            // }
         }
 
         mod(opcode, modifier, fakeop) {

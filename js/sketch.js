@@ -17,6 +17,7 @@ function setup() {
     canvas = new editor.Canvas(paint, cns, icanvas);
     selector = new editor.Selector();
     debuger = new editor.Debugger(interp); // I know that debugger is written with a double g 
+    editor.attach(debuger, interp); // attaching a debug render to the already existing debugger
 }
 // TEST: -> TODO: add when in debug mode
 // interv = setInterval(() => interp.step(), 500);

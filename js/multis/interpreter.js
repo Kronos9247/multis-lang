@@ -136,6 +136,7 @@ if (typeof multis === "undefined") multis = {};
             this.states = null;
             this.events = null;
             this.ops = null;
+            this.imods = null; // containing a object with all modifiers + target of mods 
             this.parent = null;
             
             this.reset();
@@ -146,6 +147,9 @@ if (typeof multis === "undefined") multis = {};
             this.states = [];
             this.events = {};
             this.ops = {};
+
+            if (this.imods !== undefined)
+                this.imods = {};
 
             // TEST:
             // TODO: add universe to state -> get op at position
@@ -252,6 +256,20 @@ if (typeof multis === "undefined") multis = {};
 
         step() {
             this.states.forEach(state => state.update());
+        }
+
+        inspect(x, y, tx, ty) {
+            if (this.imods === undefined)
+                return ;
+
+            const key = tx + ty * this.parent.width;
+            if (!(key in this.imods))
+                this.imods[key] = [];
+            this.imods[key].push({ 'x': x, 'y': y });
+        }
+
+        inspection() {
+            this.imods = {};
         }
     }
 
