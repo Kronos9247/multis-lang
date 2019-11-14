@@ -81,25 +81,24 @@ function mousePressed() {
 
     selector.mousePressed(mouseButton);
 
-    // get selector action
-    let x = floor(mouseX / width * store.width);
-    let y = floor(mouseY / height * store.height);
-    
-    store.set(x, y, selector.getAction());
+    if (mouseButton == LEFT) {
+        // get selector action
+        let x = floor(mouseX / width * store.width);
+        let y = floor(mouseY / height * store.height);
+        
+        store.set(x, y, selector.getAction());
 
-    // "fb" canvas needs to be repainted
-    canvas.repaint();
-}
-
-function mouseReleased() {
-    selector.deletemode = false;
+        // "fb" canvas needs to be repainted
+        canvas.repaint();
+    }
 }
 
 function mouseDragged() {
     if (execmode)
         return ;
 
-    if (mouseButton != LEFT) { 
+
+    if (mouseButton == LEFT && selector.deletemode) {
         // get selector action
         let x = floor(mouseX / width * store.width);
         let y = floor(mouseY / height * store.height);
