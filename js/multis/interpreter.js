@@ -46,7 +46,8 @@ if (typeof multis === "undefined") multis = {};
                 states.splice(index, 1);
         }
 
-        unchecked_specific() {
+        // unchecked_specific() {
+        specific_unchecked() {
                 let fop = this.parent.specific(this.position);
                 
                 if (fop !== undefined) {
@@ -71,7 +72,7 @@ if (typeof multis === "undefined") multis = {};
             // to the current state
 
             // specific first
-            if (this.unchecked_specific()) {
+            if (this.specific_unchecked()) {
                 return ;
             }
 
