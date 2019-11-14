@@ -1,0 +1,25 @@
+# Todo Liste
+## Operators
+* Opt X change default spawn directionä
+* Adding addition / subtraction opt
+* Fix opts crashing the browser (if)
+
+## Editor
+* Multi-selector using middle mouse button
+* Adding selection menu for all the Operators
+* Add prefabs to this menu
+* Display the count of states on the canvas
+* Use [Source Code Pro Fett](https://github.com/adobe-fonts/source-code-pro) as font for the viewport
+* *Giving it a liddle performance boost!*
+
+## Docs
+* Redo the docs
+
+### Additional information
+#### Addition Opt
+```multis
+^
+=+
+^^
+```
+*First thing that hits the = will be used as the final rotation*
