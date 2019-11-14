@@ -18,6 +18,18 @@ declare namespace multis {
             mousePressed(btn : number) : void
             getAction() : opcode
         }
+
+        declare class Logger {
+            constructor(query : string);
+    
+            data(msg : string, color : string, br? : boolean) : void
+            print() : void
+            clear() : void
+
+            throw(error : Error) : void
+        }
+
+        declare var stdout : Logger;
     }
 
     declare class State {
