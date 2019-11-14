@@ -9,6 +9,7 @@
 * Adding selection menu for all the Operators
 * Add prefabs to this menu
 * Display the count of states on the canvas
+* **Add seperate debug mode (Inspector)** - Icon/Btn already added to the list
 * Use [Source Code Pro Fett](https://github.com/adobe-fonts/source-code-pro) as font for the viewport
 * *Giving it a liddle performance boost!*
 

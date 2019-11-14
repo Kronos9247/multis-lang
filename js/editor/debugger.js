@@ -121,7 +121,7 @@ if (typeof editor === "undefined") editor = {};
         // real patch stuff happens here
         debuger.draw = () => {
             routine();
-            draw();
+            // draw();
 
         };
 
