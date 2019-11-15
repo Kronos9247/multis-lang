@@ -15,7 +15,7 @@ function setup() {
     /* Editor Stuff */
     // canvas = new editor.Canvas(paint, 400, 400, cns, icanvas);
     canvas = new editor.Canvas(paint, cns, icanvas);
-    selector = new editor.Selector();
+    selector = new editor.PrefabSelector(cns, editor.prefabs[2]); // new editor.Selector();
     debuger = new editor.Debugger(interp); // I know that debugger is written with a double g 
     editor.attach(debuger, interp); // attaching a debug render to the already existing debugger
 }
@@ -85,7 +85,8 @@ function mousePressed() {
     let x = floor(mouseX / width * store.width);
     let y = floor(mouseY / height * store.height);
     
-    store.set(x, y, selector.getAction());
+    // store.set(x, y, selector.getAction());
+    selector.action(store, x, y);
 
     // "fb" canvas needs to be repainted
     canvas.repaint();

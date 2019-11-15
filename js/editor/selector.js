@@ -4,12 +4,10 @@ if (typeof editor === "undefined") editor = {};
     const ops = [ 'x', [ '>', 'v', '<', '^' ], 'o', '%', [ '~', '!', '+', '-', '@', '/', '|', 's' ] ];
 
     class Selector {
-        constructor(onpaint, width, height, canvas) {
+        constructor() {
             this.setup();
             this.opindex = 0;
             this.rotation = 0;
-
-            this.deletemode = false;
         }
 
         setup() {
@@ -84,6 +82,10 @@ if (typeof editor === "undefined") editor = {};
                 opcode = opcode[this.rotation];
 
             return opcode;
+        }
+
+        action(store, x, y) {
+            store.set(x, y, this.getAction());
         }
     }
 

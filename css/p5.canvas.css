@@ -10,7 +10,7 @@
 } */
 
 /* background / fb canvas */
-#defaultCanvas1 {
+#defaultCanvas1, #defaultCanvas2 {
     position: absolute !important;
     /* solution to the overflowing browser page */
     top: 0%;
