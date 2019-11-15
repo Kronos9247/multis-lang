@@ -33,9 +33,14 @@ if (typeof editor === "undefined") editor = {};
             this.p5.draw();
         }
     
-        draw() {
+        draw(x, y) {
+            if (x === undefined || y === undefined) {
+                x = 0;
+                y = 0;
+            }
+
             var ctx = this.canvas.drawingContext;
-            ctx.drawImage(this.p5.canvas, 0, 0, this.width, this.height);
+            ctx.drawImage(this.p5.canvas, x, y, this.width, this.height);
         }
     }
 
