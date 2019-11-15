@@ -15,35 +15,21 @@ declare namespace p5 {
     interface Vector {
         x : number, y : number, z : number
     }
+
+    interface Event {
+        keyPressed(code : number) : void
+        mousePressed(btn : number) : void
+    }
+
+
+    declare class Canvas {
+        width : number
+        height : number
+    }
 }
 
 declare namespace multis {
     declare type opcode = string;
-
-    declare namespace editor {
-        declare class Selector {
-            constructor(onpaint : any, width : number, height : number, canvas : any)
-
-            setup() : void
-            draw() : void
-            keyPressed(code : number) : void
-            mousePressed(btn : number) : void
-            getAction() : opcode
-        }
-
-        declare class Logger {
-            constructor(query : string);
-    
-            data(msg : string, color : string, br? : boolean) : void
-            print() : void
-            clear() : void
-
-            throw(error : Error) : void
-        }
-
-        declare var stdout : Logger;
-    }
-
 
     interface BaseEvent {
         start(interp : multis.Interpreter, pos : p5.Vector)
@@ -156,9 +142,9 @@ declare namespace multis {
         parent? : multis.Universe
         states : Array<multis.State>
 
-        events : any[]
-        ops : any[]
-        imods : any[]
+        // events : any[]
+        // ops : any[]
+        // imods : any[]
         
 
         initCell(pos : p5.Vector, ops : any, store : multis.Universe) : void
@@ -187,5 +173,75 @@ declare namespace multis {
     }
 }
 
+declare namespace editor {
+    declare type PrefabContent = Array<{ op : string, x : number, y : number }>;
+    declare class Prefab {
+        name : string
+        width : number
+        height : number
+
+        content : PrefabContent
+
+
+        instantiate() : void
+    }
+
+    declare class Selector implements p5.Event {
+        opindex : number
+
+        // constructor(onpaint : any, width : number, height : number, canvas : any)
+        constructor()
+
+
+        setup() : void
+        draw() : void
+        
+        getAction() : multis.opcode
+        action(store : multis.Universe, x : number, y : number) : void
+    }
+
+    declare class PrefabSelector extends Selector {
+        prefab : Prefab
+
+        getAction() : PrefabContent
+    }
+
+    declare class Canvas {
+        width : number;
+        height : number;
+        // p5 : any
+        // canvas : any;
+        // onpaint : any;
+        
+        constructor(paintfn : CallbackFunction, canvas : p5.Canvas, initfn? : CallbackFunction)
+        constructor(paintfn : CallbackFunction, width : number, height : number, canvas : p5.Canvas, initfn? : CallbackFunction)
+    
+        repaint() : void
+        // draw_fn() : void // --> should not be called
+        draw() : void
+        draw(x : number, y : number) : void
+    }
+
+
+    declare class Logger {
+        constructor(query : string);
+
+        data(msg : string, color : string, br? : boolean) : void
+        print() : void
+        clear() : void
+
+        throw(error : Error) : void
+    }
+
+
+    declare var prefabs : Array<Prefab>;
+    // static editor variables
+    declare var stdout : Logger;
+}
+
+// editor variables
+declare var selector : editor.PrefabSelector | editor.Selector;
+
+// main variables
 declare var interp : multis.Interpreter;
 declare var store : multis.Universe;
