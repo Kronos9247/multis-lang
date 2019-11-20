@@ -15,7 +15,8 @@ function setup() {
     /* Editor Stuff */
     // canvas = new editor.Canvas(paint, 400, 400, cns, icanvas);
     canvas = new editor.Canvas(paint, cns, icanvas);
-    selector = new editor.PrefabSelector(cns, editor.prefabs[2]); // new editor.Selector();
+    // selector = new editor.PrefabSelector(cns, editor.prefabs[2]); // new editor.Selector();
+	selector = new editor.Selector();
     debuger = new editor.Debugger(interp); // I know that debugger is written with a double g 
     editor.attach(debuger, interp); // attaching a debug render to the already existing debugger
 }
