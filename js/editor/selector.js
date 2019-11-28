@@ -1,7 +1,7 @@
 if (typeof editor === "undefined") editor = {};
 
 (function(obj) {
-    const ops = [ 'x', [ '>', 'v', '<', '^' ], 'o', '%', [ '~', '!', '+', '-', '@', '/', '|', 's' ] ];
+    const ops = [ 'x', [ '>', 'v', '<', '^' ], 'o', '%', [ '~', '!', '+', '-', '@', '/', '|', 's' ], ['=', '+', '-'] ];
 
     class Selector {
         constructor() {

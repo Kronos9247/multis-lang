@@ -19,16 +19,20 @@
         <script src="js/multis/ops/redirect.js" charset="utf-8"></script>
         <script src="js/multis/ops/if.js" charset="utf-8"></script>
         <script src="js/multis/ops/multiplexer.js" charset="utf-8"></script>
+        <script src="js/multis/ops/addition.js" charset="utf-8"></script>
         <script src="js/editor/canvas.js" charset="utf-8"></script>
         <script src="js/editor/selector.js" charset="utf-8"></script>
-        <script src="js/editor/prefabs.js" charset="utf-8"></script>
         <script src="js/editor/debugger.js" charset="utf-8"></script>
+        <script src="js/editor/prefabs.js" charset="utf-8"></script>
         <script src="js/editor/logger.js" charset="utf-8"></script>
         <script src="js/sketch.js" charset="utf-8"></script>
+
         <!-- <script src="build/multis.functions.min.js" charset="utf-8"></script>
         <script src="build/multis.ops.min.js" charset="utf-8"></script>
         <script src="build/multis.editor.min.js" charset="utf-8"></script>
         <script src="build/multis.min.js" charset="utf-8"></script> -->
+
+        <!-- <script src="build/multis-complete.min.js" charset="utf-8"></script> -->
 
         <!-- External-Font -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -113,7 +117,7 @@
 
                 if (interv === null) {
                     interp.init();
-                    interv = setInterval(() => interp.step(), 500);
+                    interv = setInterval(() => interp.step(), 150); // 500
                     execmode = true;
 
                     $("#pause-btn").removeClass("hidden");

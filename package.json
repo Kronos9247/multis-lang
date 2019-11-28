@@ -6,8 +6,9 @@
     "minify-functions": "uglifyjs js/multis/functions.js js/multis/functions.modifiers.js js/multis/functions.layers.js js/multis/functions.layers.data.js js/multis/functions.stacking.js --compress -o build/multis.functions.min.js",
     "minify-operators": "uglifyjs js/multis/ops/start.js js/multis/ops/redirect.js js/multis/ops/if.js js/multis/ops/multiplexer.js --compress -o build/multis.ops.min.js",
     "minify-core": "uglifyjs js/multis/interpreter.js js/multis/universe.js js/sketch.js --compress -o build/multis.min.js",
-    "minify-editor": "uglifyjs js/editor/canvas.js js/editor/debugger.js js/editor/logger.js js/editor/selector.js --compress -o build/multis.editor.min.js",
-    "minify": "npm run minify-functions && npm run minify-operators && npm run minify-editor && npm run minify-core"
+    "minify-editor": "uglifyjs js/editor/canvas.js js/editor/debugger.js js/editor/logger.js js/editor/selector.js js/editor/prefabs.js --compress -o build/multis.editor.min.js",
+    "minify": "npm run minify-functions && npm run minify-operators && npm run minify-editor && npm run minify-core",
+    "minify-all": "npm run minify && uglifyjs build/multis.functions.min.js build/multis.ops.min.js build/multis.editor.min.js build/multis.min.js --compress -o build/multis-all.min.js && javascript-obfuscator build/multis-all.min.js --output build/multis-complete.min.js --compact true --self-defending true"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/Kronos9247/multis-lang#readme",
   "dependencies": {},
   "devDependencies": {
+    "javascript-obfuscator": "^0.18.3",
     "uglify-es": "github:mishoo/UglifyJS2#harmony"
   }
 }
